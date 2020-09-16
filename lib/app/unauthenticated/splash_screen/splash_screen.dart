@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
             BackgroundImage(),
             Column(
               children: <Widget>[
-                LogoLoginonSplashScreen(),
+                LogoonSplashScreen(),
                 Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: ScreenUtil().setHeight(20)),

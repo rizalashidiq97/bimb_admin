@@ -18,7 +18,7 @@ extension DioErrorExtension on DioError {
     } else if (this.type == DioErrorType.DEFAULT) {
       message =
           'Proses pengambilan data gagal, silahkan cek jaringan anda pastikan anda terhubung ke internet';
-    } else if (this.type == DioErrorType.CANCEL) {
+    } else if (this.type == DioErrorType.CANCEL || CancelToken.isCancel(this)) {
       message = 'Proses dibatalkan';
     } else {
       message = 'Proses pengambilan data gagal';

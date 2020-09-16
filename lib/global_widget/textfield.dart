@@ -73,12 +73,18 @@ class TextFormWidget extends StatelessWidget {
                     borderSide: BorderSide(color: Color(0xff838383)),
                   )
                 : UnderlineInputBorder(),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
-            ),
+            errorBorder: border
+                ? OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  )
+                : UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
+            focusedErrorBorder: border
+                ? OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  )
+                : UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
             isDense: true),
       ),
     );

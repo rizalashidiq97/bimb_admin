@@ -1,66 +1,71 @@
 import 'package:bimbingan_kuy_admin/global_controller/controller/auth_controller.dart';
-import 'package:bimbingan_kuy_admin/global_controller/interface/cancel_interface.dart';
+import 'package:bimbingan_kuy_admin/service/auth_service.dart';
 import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
+import 'package:bimbingan_kuy_admin/util/utitity/GetXhelper.dart';
+import 'package:bimbingan_kuy_admin/util/utitity/dialog_widget.dart';
+import 'package:bimbingan_kuy_admin/util/extension/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'login_model/login_model.dart';
 
-class LoginController extends GetxController with ICancellableOperation {
+class LoginController extends GetxController {
   final focusPassword = FocusNode();
-  Rx<LoginData> _loginData = LoginData().obs;
-  Rx<String> errorPasswordmsg = null.obs;
-  Rx<String> errorEmailmsg = null.obs;
-  RxBool isPasswordError = true.obs;
-  RxBool isEmailError = true.obs;
+  LoginData loginData = LoginData();
+  RxString _errorPasswordmsg = ''.obs;
+  RxString _errorEmailmsg = ''.obs;
+  RxBool _isPasswordError = true.obs;
+  RxBool _isEmailError = true.obs;
 
-  bool get isAllowedSubmit => !isPasswordError.value && !isEmailError.value;
+  bool get isAllowedSubmit => !_isPasswordError.value && !_isEmailError.value;
+  String get emailError =>
+      _errorEmailmsg.value == '' ? null : _errorEmailmsg.value;
+  String get passwordError =>
+      _errorPasswordmsg.value == '' ? null : _errorPasswordmsg.value;
 
   void setEmail(String value) {
     if (value.isEmpty) {
-      isEmailError.value = true;
-      errorEmailmsg.value = 'Email tidak boleh kosong';
-    } else if (value.isEmail) {
-      isEmailError.value = true;
-      errorEmailmsg.value = 'Format Email tidak valid';
+      _isEmailError.value = true;
+      _errorEmailmsg.value = 'Email'.isRequired;
+    } else if (!value.isEmail) {
+      _isEmailError.value = true;
+      _errorEmailmsg.value = 'email'.isInvalidFormat;
     } else {
-      isEmailError.value = false;
-      errorEmailmsg.value = null;
+      _isEmailError.value = false;
+      _errorEmailmsg.value = null;
     }
-    _loginData.value = _loginData.value.copyWith(email: value);
+    loginData = loginData.copyWith(email: value);
   }
 
   void setPassword(String value) {
     if (value.isEmpty) {
-      isPasswordError.value = true;
-      errorPasswordmsg.value = 'Password tidak boleh kosong';
+      _isPasswordError.value = true;
+      _errorPasswordmsg.value = 'Password'.isRequired;
     } else if (value.length < 8) {
-      isPasswordError.value = true;
-      errorPasswordmsg.value = 'Password tidak boleh kurang dari 8 karakter';
+      _isPasswordError.value = true;
+      _errorPasswordmsg.value = 'Password'.lengthMustBeOrGreaterThan(8);
     } else {
-      isPasswordError.value = false;
-      errorPasswordmsg.value = null;
+      _isPasswordError.value = false;
+      _errorPasswordmsg.value = null;
     }
-    _loginData.value = _loginData.value.copyWith(password: value);
+    loginData = loginData.copyWith(password: value);
   }
 
   Future<void> submittoLogin() async {
-    Get.defaultDialog(
-      title: 'Tunggu',
-      textCancel: 'Batalkan',
-      middleText: 'Tunggu sebentar',
-      onCancel: () => cancel(),
-    );
+    Get.dialog(LoadingDialog(
+      cancelCallback: () => Get.find<AuthService>().initcancelToken?.cancel(),
+    ));
     try {
-      final response = await Get.find<AuthController>().login(_loginData.value);
+      final response = await Get.find<AuthController>().login();
+      Get.back();
       if (response) {
         Get.toNamed(NameRoutes.home);
+      } else {
+        Helper.defaultSnackBarError('User dan password tidak valid');
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString(),
-          icon: Icon(Icons.cancel),
-          snackPosition: SnackPosition.TOP,
-          snackStyle: SnackStyle.GROUNDED);
+      Get.back();
+      Helper.defaultSnackBarError(e);
     }
   }
 

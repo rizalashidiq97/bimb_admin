@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import '../login_controller.dart';
 
 class LoginSubmit extends StatelessWidget {
-  final loginController = Get.find<LoginController>();
   @override
   Widget build(BuildContext context) {
+    final loginController = Get.find<LoginController>();
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(

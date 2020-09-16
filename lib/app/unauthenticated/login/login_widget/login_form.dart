@@ -5,8 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class LoginForm extends StatelessWidget {
-  final loginController = Get.find<LoginController>();
-
+  final LoginController loginController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,10 +17,11 @@ class LoginForm extends StatelessWidget {
         children: [
           Obx(
             () => TextFormWidget(
+              border: false,
               label: 'Email',
               icon: Icon(Icons.person),
               nextfocusNode: loginController.focusPassword,
-              errorText: loginController.errorEmailmsg.value,
+              errorText: loginController.emailError,
               onChange: (value) => loginController.setEmail(value),
             ),
           ),
@@ -30,11 +30,13 @@ class LoginForm extends StatelessWidget {
           ),
           Obx(
             () => TextFormWidget(
+              border: false,
               focusNode: loginController.focusPassword,
               obsecureText: true,
               label: 'Password',
               icon: Icon(Icons.lock),
-              errorText: loginController.errorPasswordmsg.value,
+              errorText: loginController.passwordError,
+              errorMaxLines: 2,
               onChange: (value) => loginController.setPassword(value),
             ),
           ),

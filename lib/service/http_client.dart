@@ -1,31 +1,29 @@
 import 'package:bimbingan_kuy_admin/global_controller/controller/auth_controller.dart';
 import 'package:bimbingan_kuy_admin/util/utitity/string_util.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/native_imp.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-class HttpClient extends DioForNative {
+class HttpClient {
   GetStorage storage = GetStorage();
   Dio _newDio = Dio();
-
-  CancelToken cancelToken = CancelToken();
+  Dio dio = Dio();
 
   final bool withAuth;
 
-  HttpClient({this.withAuth = true, BaseOptions options}) : super(options) {
-    options.baseUrl = 'https://sibimbing.herokuapp.com/api';
-    options.connectTimeout = 5000;
-    options.receiveTimeout = 15000;
-    options.responseType = ResponseType.json;
-    _newDio.options = options;
-    interceptors.add(PrettyDioLogger(
+  HttpClient({this.withAuth = true}) {
+    dio.options.baseUrl = 'https://sibimbing.herokuapp.com/api';
+    dio.options.connectTimeout = 5000;
+    dio.options.receiveTimeout = 15000;
+    dio.options.responseType = ResponseType.json;
+    _newDio.options = dio.options;
+    dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
       responseBody: true,
     ));
-    interceptors.add(
+    dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: onRequestMethod,
         onResponse: (Response response) => response,
@@ -34,22 +32,25 @@ class HttpClient extends DioForNative {
     );
   }
 
+  bool excludedPath(DioError error) {
+    return error.request.path != '/auth/login';
+  }
+
   void lockRequest() {
-    this.lock();
-    this.interceptors.responseLock.lock();
-    this.interceptors.errorLock.lock();
+    dio.lock();
+    dio.interceptors.responseLock.lock();
+    dio.interceptors.errorLock.lock();
   }
 
   void unlockRequest() {
-    this.unlock();
-    this.interceptors.responseLock.unlock();
-    this.interceptors.errorLock.unlock();
+    dio.unlock();
+    dio.interceptors.responseLock.unlock();
+    dio.interceptors.errorLock.unlock();
   }
 
   Future<RequestOptions> onRequestMethod(RequestOptions options) async {
     bool accessToken = storage.hasData(StringUtil.accessToken);
 
-    options.cancelToken = cancelToken;
     print('>> START REQUEST');
     if (!accessToken && withAuth) {
       print('>> IF TOKEN IS NOT PROVIDED');
@@ -65,15 +66,14 @@ class HttpClient extends DioForNative {
   }
 
   onErrorMethod(DioError error) async {
-    if (error.response?.statusCode == 401 &&
-        error.request.path != '/auth/login') {
+    if (error.response?.statusCode == 401 && excludedPath(error)) {
       print('>> IF ERROR iS 401');
       RequestOptions options = error.response.request;
 
       String accessToken = "Bearer ${storage.read(StringUtil.accessToken)}";
       if (accessToken != options.headers['Authorization']) {
         print('>> IF HEADER IS NOT SAME AS ACCESSTOKEN');
-        return this.request(options.path, options: options);
+        return dio.request(options.path, options: options);
       }
 
       lockRequest();
@@ -102,7 +102,7 @@ class HttpClient extends DioForNative {
 
         unlockRequest();
         print('>>  CONTINUE TO REQUEST');
-        return this.request(options.path, options: options);
+        return dio.request(options.path, options: options);
       } on DioError catch (e) {
         print('>> DIO ERROR REFRESH TOKEN');
         unlockRequest();

@@ -15,11 +15,13 @@ class MainAppBinding extends Bindings {
     );
     Get.lazyPut(
       () => AuthService(
-        dio: Get.find<HttpClient>(tag: StringUtil.dioWithAuth),
-        diowithoutAuth: Get.find<HttpClient>(tag: StringUtil.dioWithoutAuth),
+        dio: Get.find<HttpClient>(tag: StringUtil.dioWithAuth).dio,
+        diowithoutAuth:
+            Get.find<HttpClient>(tag: StringUtil.dioWithoutAuth).dio,
       ),
     );
     Get.put<AuthController>(
-        AuthController(authService: Get.find<AuthService>()));
+      AuthController(authService: Get.find<AuthService>()),
+    );
   }
 }

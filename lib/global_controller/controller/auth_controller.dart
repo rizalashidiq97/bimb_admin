@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:bimbingan_kuy_admin/app/unauthenticated/login/login_model/login_model.dart';
 import 'package:bimbingan_kuy_admin/global_model/auth_model.dart';
 import 'package:bimbingan_kuy_admin/service/auth_service.dart';
 import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
@@ -12,8 +11,10 @@ class AuthController extends GetxController {
   final AuthService authService;
   AuthController({this.authService});
 
-  Rx<String> token = null.obs;
+  RxString _token = ''.obs;
   Rx<AuthData> authData = AuthData().obs;
+
+  String get token => _token.value == '' ? null : _token.value;
 
   @override
   void onInit() => setDataFromDisk();
@@ -21,7 +22,7 @@ class AuthController extends GetxController {
   setDataFromDisk() {
     final hasToken = GetStorage().hasData(StringUtil.accessToken);
     if (hasToken) {
-      token.value = GetStorage().read<String>(StringUtil.accessToken);
+      _token.value = GetStorage().read<String>(StringUtil.accessToken);
       final authUser =
           json.decode(GetStorage().read<String>(StringUtil.authData))
               as Map<String, dynamic>;
@@ -37,7 +38,7 @@ class AuthController extends GetxController {
   writeDatatoDisk({bool isRefreshToken, NetworkAuthModel authModel}) {
     print('>>  WRITE DATA TO DISK');
     GetStorage().write(StringUtil.accessToken, authModel.accessToken);
-    token.value = authModel.accessToken ?? token.value;
+    _token.value = authModel.accessToken ?? _token.value;
     if (authModel != null && isRefreshToken == false) {
       GetStorage().write(StringUtil.authData, json.encode(authModel.toMap()));
       authData.value = AuthData(
@@ -48,11 +49,18 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> login(LoginData loginData) async {
+  Future<bool> login() async {
     try {
-      final response = await authService.loginService(loginData);
-      writeDatatoDisk(authModel: response);
-      return true;
+      final response = await authService.loginService();
+
+      int roleIndex =
+          response.user.roles.indexWhere((data) => data.name == 'admin');
+      if (roleIndex != -1) {
+        writeDatatoDisk(authModel: response);
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       throw e;
     }
@@ -61,7 +69,7 @@ class AuthController extends GetxController {
   void logout() {
     print('>>  LOGOUT');
     GetStorage().erase();
-    token.value = null;
+    _token.value = null;
     authData.value = AuthData();
     Get.offAllNamed(NameRoutes.login);
   }
