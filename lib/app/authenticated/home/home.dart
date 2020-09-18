@@ -1,34 +1,52 @@
-import 'package:bimbingan_kuy_admin/global_controller/controller/auth_controller.dart';
-import 'package:bimbingan_kuy_admin/util/widget_utility/string_util.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/departemen/departemen.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/departemen/departemen_router.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_router.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class HomePage extends StatelessWidget {
-  final getStorage = GetStorage();
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.find();
-
+    final HomeController homeController = Get.find();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Obx(
+        () => IndexedStack(
+          index: homeController.selectedIndex.value,
           children: [
-            Text('${authController.authData.value.email}'),
-            Text('${authController.authData.value.id}'),
-            Text('${authController.authData.value.name}'),
-            Text('${authController.token}'),
-            Text('--- Check GetStorage'),
-            Text('${getStorage.read(StringUtil.accessToken)}'),
-            Text('${getStorage.read(StringUtil.authData)}'),
-            RaisedButton(
-              onPressed: () => authController.logout(),
-              child: Text(
-                'Logout',
-                style: TextStyle(color: Colors.white),
+            DosenRouter(),
+            DepartemenRouter(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          onTap: homeController.updateIndexTab,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.people,
+                color: homeController.changeColorToggleActive(0),
               ),
-            )
+              title: Text(
+                'Dosen',
+                style: TextStyle(
+                  color: homeController.changeColorToggleActive(0),
+                ),
+              ),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_balance,
+                color: homeController.changeColorToggleActive(1),
+              ),
+              title: Text(
+                'Departemen',
+                style: TextStyle(
+                  color: homeController.changeColorToggleActive(1),
+                ),
+              ),
+            ),
           ],
         ),
       ),

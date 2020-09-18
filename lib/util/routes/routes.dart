@@ -1,4 +1,5 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/home/home.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/home/home_controller.dart';
 import 'package:bimbingan_kuy_admin/app/unauthenticated/login/login_controller.dart';
 import 'package:get/get.dart';
 import 'name_routes.dart';
@@ -26,9 +27,9 @@ class Routes {
     GetPage(
       name: NameRoutes.home,
       page: () => HomePage(),
-      // binding: BindingsBuilder(
-      //   () => Get.put<LoginController>(LoginController()),
-      // ),
+      binding: BindingsBuilder(
+        () => Get.put<HomeController>(HomeController()),
+      ),
     )
   ];
 }
