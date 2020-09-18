@@ -1,5 +1,5 @@
 import 'package:bimbingan_kuy_admin/global_controller/controller/auth_controller.dart';
-import 'package:bimbingan_kuy_admin/util/utitity/string_util.dart';
+import 'package:bimbingan_kuy_admin/util/widget_utility/string_util.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -58,10 +58,9 @@ class HttpClient {
     }
     if (withAuth) {
       print('>> IF TOKEN IS PROVIDED BUT WITH AUTH');
-      options.headers["Authorization"] =
+      options.headers["authorization"] =
           "Bearer ${storage.read(StringUtil.accessToken)}";
     }
-
     return options;
   }
 
@@ -71,7 +70,7 @@ class HttpClient {
       RequestOptions options = error.response.request;
 
       String accessToken = "Bearer ${storage.read(StringUtil.accessToken)}";
-      if (accessToken != options.headers['Authorization']) {
+      if (accessToken != options.headers['authorization']) {
         print('>> IF HEADER IS NOT SAME AS ACCESSTOKEN');
         return dio.request(options.path, options: options);
       }
@@ -104,13 +103,20 @@ class HttpClient {
         print('>>  CONTINUE TO REQUEST');
         return dio.request(options.path, options: options);
       } on DioError catch (e) {
+        String message;
         print('>> DIO ERROR REFRESH TOKEN');
         unlockRequest();
 
         print('>>  UNLOCK OLD INSTANCE');
-        Get.find<AuthController>().logout();
+        if (e.response?.statusCode == 401) {
+          Get.find<AuthController>().logout();
+          message = 'Token not provided';
+        } else {
+          message = e.response.statusMessage;
+        }
+
         throw DioError(
-          error: 'Token not found. Please do Login.',
+          error: message,
           type: DioErrorType.RESPONSE,
           response: e.response,
         );

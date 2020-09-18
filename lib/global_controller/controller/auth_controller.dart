@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bimbingan_kuy_admin/global_model/auth_model.dart';
 import 'package:bimbingan_kuy_admin/service/auth_service.dart';
 import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
-import 'package:bimbingan_kuy_admin/util/utitity/string_util.dart';
+import 'package:bimbingan_kuy_admin/util/widget_utility/string_util.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -39,7 +39,8 @@ class AuthController extends GetxController {
     print('>>  WRITE DATA TO DISK');
     GetStorage().write(StringUtil.accessToken, authModel.accessToken);
     _token.value = authModel.accessToken ?? _token.value;
-    if (authModel != null && isRefreshToken == false) {
+    if (authModel != null && isRefreshToken == null) {
+      print('>>  WRITE DATA MODEL');
       GetStorage().write(StringUtil.authData, json.encode(authModel.toMap()));
       authData.value = AuthData(
         name: authModel.user.name,
@@ -71,6 +72,8 @@ class AuthController extends GetxController {
     GetStorage().erase();
     _token.value = null;
     authData.value = AuthData();
+    print('value token : ${GetStorage().read(StringUtil.accessToken)}');
+    print('value authData : ${GetStorage().read(StringUtil.authData)}');
     Get.offAllNamed(NameRoutes.login);
   }
 }

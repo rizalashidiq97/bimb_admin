@@ -27,9 +27,9 @@ class NetworkAuthModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'email': this.user.email,
-      'name': this.user.name,
-      'userId': this.user.id,
+      'email': this.user?.email,
+      'name': this.user?.name,
+      'userId': this.user?.id,
     };
   }
 

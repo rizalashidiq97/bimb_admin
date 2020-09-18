@@ -9,21 +9,19 @@ class AuthService {
   final Dio diowithoutAuth;
   AuthService({this.diowithoutAuth, this.dio});
 
-  CancelToken initcancelToken;
+  CancelToken cancelToken;
 
   Future<NetworkAuthModel> loginService() async {
     final loginData = Get.find<LoginController>().loginData;
-    initcancelToken = CancelToken();
+    cancelToken = CancelToken();
 
     try {
       Response response = await diowithoutAuth.post(
         '/auth/login',
-        cancelToken: initcancelToken,
-        data: {
-          'email': loginData.email,
-          'password': loginData.password,
-        },
+        cancelToken: cancelToken,
+        data: loginData.toMap(),
       );
+
       return NetworkAuthModel.fromJson(response.data);
     } on DioError catch (e) {
       throw e.withMessage();

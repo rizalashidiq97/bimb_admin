@@ -10,4 +10,11 @@ class LoginData {
       password: password ?? this.password,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'email': this?.email,
+      'password': this?.password,
+    };
+  }
 }
