@@ -11,7 +11,7 @@ class SplashScreenController extends GetxController {
     final hasToken = GetStorage().hasData(StringUtil.accessToken);
     await Future.delayed(Duration(seconds: 2));
     if (hasToken) {
-      Get.offNamed(NameRoutes.home);
+      Get.offNamed(NameRoutes.dummy);
     } else {
       Get.offNamed(NameRoutes.login);
     }

@@ -1,3 +1,4 @@
+import 'package:bimbingan_kuy_admin/app/authenticated/home/dummy.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/home/home.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/home/home_controller.dart';
 import 'package:bimbingan_kuy_admin/app/unauthenticated/login/login_controller.dart';
@@ -23,6 +24,10 @@ class Routes {
       binding: BindingsBuilder(
         () => Get.put<LoginController>(LoginController()),
       ),
+    ),
+    GetPage(
+      name: NameRoutes.dummy,
+      page: () => DummyPage(),
     ),
     GetPage(
       name: NameRoutes.home,

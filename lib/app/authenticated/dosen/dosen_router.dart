@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'dosen_detail.dart';
 import 'dosen_list.dart';
+import 'dosen_model/navigator_model.dart';
 
 class DosenRouter extends StatelessWidget {
   const DosenRouter({
@@ -24,6 +25,8 @@ class DosenRouter extends StatelessWidget {
             );
             break;
           case NameRoutes.dosenDetail:
+            final PassDataFromDosenListtoDosenDetail data = route.arguments;
+            print('argument : ${data.idDosen}');
             navigator = GetPageRoute(
               page: () => DosenDetail(),
             );

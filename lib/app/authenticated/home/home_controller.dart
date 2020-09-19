@@ -11,4 +11,17 @@ class HomeController extends GetxController {
   void updateIndexTab(int value) {
     selectedIndex.value = value;
   }
+
+  Future<bool> handleBackPress() async {
+    final isFirstRouteInCurrentTab =
+        !await Get.nestedKey(selectedIndex.value + 1).currentState.maybePop();
+    if (isFirstRouteInCurrentTab) {
+      if (selectedIndex.value != 0) {
+        updateIndexTab(0);
+        return false;
+      }
+    }
+
+    return isFirstRouteInCurrentTab;
+  }
 }

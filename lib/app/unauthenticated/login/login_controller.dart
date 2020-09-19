@@ -61,7 +61,7 @@ class LoginController extends GetxController {
       final response = await Get.find<AuthController>().login();
       Get.back();
       if (response) {
-        Get.offNamed(NameRoutes.home);
+        Get.offNamed(NameRoutes.dummy);
       } else {
         Helper.defaultSnackBarError('User dan password tidak valid');
       }
