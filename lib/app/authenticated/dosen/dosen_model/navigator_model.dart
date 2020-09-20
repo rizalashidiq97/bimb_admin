@@ -1,5 +1,9 @@
-class PassDataFromDosenListtoDosenDetail {
-  final int idDosen;
+import 'package:bimbingan_kuy_admin/global_model/authModel/User.dart';
+import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
 
-  PassDataFromDosenListtoDosenDetail(this.idDosen);
+class PassDataFromDosenListtoDosenDetail {
+  final CRUDMode crudMode;
+  final User user;
+
+  PassDataFromDosenListtoDosenDetail({this.crudMode, this.user});
 }

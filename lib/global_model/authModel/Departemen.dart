@@ -1,3 +1,5 @@
+import '../../util/extension/string_extension.dart';
+
 class Departemen {
   Departemen({
     this.id,
@@ -15,7 +17,7 @@ class Departemen {
 
   factory Departemen.fromJson(Map<String, dynamic> json) => Departemen(
         id: json["id"] == null ? null : json["id"],
-        nama: json["nama"] == null ? null : json["nama"],
+        nama: json["nama"] == null ? null : json["nama"].toString().toCapital,
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),

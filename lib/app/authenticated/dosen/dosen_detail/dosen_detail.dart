@@ -1,4 +1,4 @@
-import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail_controller.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -4,3 +4,12 @@ extension ValidationStringErrorExtension on String {
   String lengthMustBeOrGreaterThan(int data) =>
       '$this tidak boleh kurang dari $data karakter';
 }
+
+extension StringSuperCharged on String {
+  String get toCapital {
+    if (this != null) {
+      return '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
+    }
+    return 'error gan';
+  }
+}

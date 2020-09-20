@@ -2,7 +2,7 @@ import 'package:bimbingan_kuy_admin/global_controller/controller/auth_controller
 import 'package:bimbingan_kuy_admin/service/auth_service.dart';
 import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
 import 'package:bimbingan_kuy_admin/util/widget_utility/GetXhelper.dart';
-import 'package:bimbingan_kuy_admin/service/dialog_widget.dart';
+import 'package:bimbingan_kuy_admin/global_widget/dialog_widget.dart';
 import 'package:bimbingan_kuy_admin/util/extension/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,7 +61,7 @@ class LoginController extends GetxController {
       final response = await Get.find<AuthController>().login();
       Get.back();
       if (response) {
-        Get.offNamed(NameRoutes.dummy);
+        Get.offNamed(NameRoutes.home);
       } else {
         Helper.defaultSnackBarError('User dan password tidak valid');
       }
