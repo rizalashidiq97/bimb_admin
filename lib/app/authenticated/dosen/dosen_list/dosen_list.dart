@@ -1,7 +1,7 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_list/dosen_list_controller.dart';
+import 'package:bimbingan_kuy_admin/global_widget/reusable_app_bar.dart';
 import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'dosen_list_item.dart';
@@ -13,11 +13,8 @@ class DosenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Daftar Dosen',
-          style: TextStyle(fontSize: ScreenUtil().setSp(40)),
-        ),
+      appBar: ReusableAppBar(
+        titleText: 'Daftar Dosen',
         actions: [
           IconButton(
             icon: Icon(Icons.add),

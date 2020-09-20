@@ -18,7 +18,12 @@ class DosenListController extends GetxController {
   void onReady() => initCallApi();
 
   String roles(int index) {
-    return list[index].roles.map((data) => data.name).toList().join(', ');
+    return list[index]
+        .roles
+        .map((data) => data.name)
+        .toList()
+        .join(', ')
+        .replaceAll(RegExp('[\\_]+'), ' ');
   }
 
   Future<void> initCallApi({bool isRefresh = false}) async {
