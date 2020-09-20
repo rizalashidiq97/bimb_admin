@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'dosen_detail.dart';
+import 'dosen_detail_controller.dart';
 import 'dosen_list.dart';
 import 'dosen_model/navigator_model.dart';
 
@@ -17,22 +18,26 @@ class DosenRouter extends StatelessWidget {
       key: Get.nestedKey(1),
       initialRoute: NameRoutes.dosen,
       onGenerateRoute: (route) {
-        var navigator;
         switch (route.name) {
           case NameRoutes.dosen:
-            navigator = GetPageRoute(
+            return GetPageRoute(
+              routeName: NameRoutes.dosen,
               page: () => DosenPage(),
             );
             break;
           case NameRoutes.dosenDetail:
             final PassDataFromDosenListtoDosenDetail data = route.arguments;
-            print('argument : ${data.idDosen}');
-            navigator = GetPageRoute(
+            return GetPageRoute(
+              binding: BindingsBuilder(
+                () => Get.put<DosenDetailController>(
+                  DosenDetailController(id: data.idDosen),
+                ),
+              ),
+              routeName: NameRoutes.dosenDetail,
               page: () => DosenDetail(),
             );
             break;
         }
-        return navigator;
       },
     );
   }
