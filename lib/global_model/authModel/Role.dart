@@ -10,4 +10,11 @@ class Role {
   factory Role.fromJson(Map<String, dynamic> json) => Role(
         name: json["name"] == null ? null : json["name"].toString().toCapital,
       );
+
+  @override
+  String toString() {
+    return """Role(
+      name :${this.name})
+    """;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_controller/dosen_validation_controller.dart';
 import 'package:bimbingan_kuy_admin/service/dosen_service.dart';
 import 'package:bimbingan_kuy_admin/service/http_client.dart';
 import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'dosen_detail/dosen_detail.dart';
-import 'dosen_detail/dosen_detail_controller.dart';
+import 'dosen_detail/dosen_detail_controller/dosen_detail_controller.dart';
 import 'dosen_list/dosen_list.dart';
 import 'dosen_list/dosen_list_controller.dart';
 import 'dosen_model/navigator_model.dart';
@@ -44,8 +45,12 @@ class DosenRouter extends StatelessWidget {
             final PassDataFromDosenListtoDosenDetail argument = route.arguments;
             v = GetPageRoute(
               binding: BindingsBuilder(
-                () => Get.put<DosenDetailController>(
-                    DosenDetailController(data: argument)),
+                () {
+                  Get.lazyPut(() =>
+                      DosenValidationController(crudMode: argument.crudMode));
+                  Get.lazyPut(() => DosenDetailController(
+                      data: argument, dosenService: Get.find<DosenService>()));
+                },
               ),
               routeName: NameRoutes.dosenDetail,
               page: () => DosenDetail(),

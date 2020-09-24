@@ -37,4 +37,42 @@ class Dosen {
             ? null
             : DateTime.parse(json["updated_at"]),
       );
+
+  Dosen copyWith({
+    int id,
+    int kodeBimbing,
+    int kodeWali,
+    String nip,
+    String nama,
+    int departemenId,
+    int userId,
+    DateTime createdAt,
+    DateTime updatedAt,
+  }) =>
+      Dosen(
+        id: id ?? this.id,
+        kodeBimbing: kodeBimbing ?? this.kodeBimbing,
+        kodeWali: kodeWali ?? this.kodeWali,
+        nip: nip ?? this.nip,
+        nama: nama ?? this.nama,
+        departemenId: departemenId ?? this.departemenId,
+        userId: userId ?? this.userId,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
+  @override
+  String toString() {
+    return """Dosen(
+          id : ${this.id},
+          kodeBimbing :${this.kodeBimbing},
+          kodeWali :${this.kodeWali},
+          nip : ${this.nip},
+          nama : ${this.nama},
+          departemenId : ${this.departemenId},
+          userId : ${this.userId},
+          createdAt: ${this.createdAt},
+          updatedAt: ${this.updatedAt},)
+    """;
+  }
 }

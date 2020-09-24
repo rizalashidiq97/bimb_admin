@@ -1,31 +1,28 @@
 import '../../util/extension/string_extension.dart';
 
 class Departemen {
-  Departemen({
-    this.id,
-    this.nama,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-  });
+  Departemen({this.id, this.nama});
 
   int id;
   String nama;
-  DateTime createdAt;
-  DateTime updatedAt;
-  dynamic deletedAt;
 
   factory Departemen.fromJson(Map<String, dynamic> json) => Departemen(
         id: json["id"] == null ? null : json["id"],
         nama: json["nama"] == null ? null : json["nama"].toString().toCapital,
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-        deletedAt: json["deleted_at"] == null
-            ? null
-            : DateTime.parse(json["deleted_at"]),
       );
+
+  Departemen copyWith({
+    int id,
+    String nama,
+  }) {
+    return Departemen(id: id ?? this.id, nama: nama ?? this.nama);
+  }
+
+  @override
+  String toString() {
+    return """Departemen(
+          id : ${this.id},
+          nama :${this.nama})
+    """;
+  }
 }

@@ -32,4 +32,34 @@ class User {
             ? null
             : List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
       );
+
+  User copyWith({
+    int id,
+    String name,
+    String email,
+    Dosen dosen,
+    Departemen departemen,
+    List<Role> roles,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      dosen: dosen ?? this.dosen,
+      departemen: departemen ?? this.departemen,
+      roles: roles ?? this.roles,
+    );
+  }
+
+  @override
+  String toString() {
+    return """User(
+      id : ${this.id},
+      name :${this.name},
+      email :${this.email},
+      dosen : ${this.dosen},
+      departemen : ${this.departemen},
+      roles : ${this.roles})
+    """;
+  }
 }
