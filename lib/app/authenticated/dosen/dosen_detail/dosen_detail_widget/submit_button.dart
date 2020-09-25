@@ -31,7 +31,7 @@ class SubmitFormCRUDDosen extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text("MASUK"),
+              Text("PROSES"),
               Icon(Icons.arrow_forward),
             ],
           ),

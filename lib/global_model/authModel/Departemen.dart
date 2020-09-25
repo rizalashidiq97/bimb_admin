@@ -10,12 +10,15 @@ class Departemen {
         id: json["id"] == null ? null : json["id"],
         nama: json["nama"] == null ? null : json["nama"].toString().toCapital,
       );
+  Map<String, dynamic> toMap() {
+    return {
+      "id": this?.id,
+      "nama": this?.nama,
+    };
+  }
 
-  Departemen copyWith({
-    int id,
-    String nama,
-  }) {
-    return Departemen(id: id ?? this.id, nama: nama ?? this.nama);
+  static Departemen fromMap(Map<String, dynamic> data) {
+    return Departemen(id: data['id'], nama: data['nama']);
   }
 
   @override

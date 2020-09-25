@@ -2,7 +2,7 @@ import 'package:bimbingan_kuy_admin/app/unauthenticated/login/login_controller.d
 import 'package:bimbingan_kuy_admin/global_model/auth_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import '../util/extension/dioError_extension.dart';
+import '../../util/extension/dioError_extension.dart';
 
 class AuthService {
   final Dio dio;

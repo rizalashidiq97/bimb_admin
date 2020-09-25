@@ -1,20 +1,29 @@
 import '../../util/extension/string_extension.dart';
 
 class Role {
-  Role({
-    this.name,
-  });
+  Role({this.name, this.id, this.checked});
 
   String name;
+  int id;
+  bool checked;
 
   factory Role.fromJson(Map<String, dynamic> json) => Role(
-        name: json["name"] == null ? null : json["name"].toString().toCapital,
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null
+            ? null
+            : json["name"]
+                .toString()
+                .toCapital
+                .replaceAll(RegExp('[\\_]+'), ' '),
+        checked: true,
       );
 
   @override
   String toString() {
     return """Role(
-      name :${this.name})
+      name :${this.name},
+      id : ${this.id},
+      checked : ${this.checked})
     """;
   }
 }

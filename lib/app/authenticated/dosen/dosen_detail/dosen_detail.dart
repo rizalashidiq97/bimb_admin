@@ -3,7 +3,7 @@ import 'package:bimbingan_kuy_admin/global_widget/reusable_app_bar.dart';
 import 'package:bimbingan_kuy_admin/global_widget/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dosen_detail_widget/multi_select_form.dart';
+import 'dosen_detail_widget/select_roles.dart';
 import 'dosen_detail_widget/select_departemen.dart';
 import 'dosen_detail_widget/submit_button.dart';
 import '../../../../util/extension/context_extension.dart';
@@ -80,7 +80,7 @@ class DosenDetail extends StatelessWidget {
                   ),
                 ),
                 SelectDepartemen(),
-                MultiSelectForm(),
+                SelectRoles(),
                 SubmitFormCRUDDosen()
               ],
             ),

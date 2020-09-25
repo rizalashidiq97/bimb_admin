@@ -1,10 +1,14 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_controller/dosen_validation_controller.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_list/dosen_list_controller.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_model/navigator_model.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/Departemen.dart';
+import 'package:bimbingan_kuy_admin/global_model/authModel/Role.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/User.dart';
 import 'package:bimbingan_kuy_admin/global_model/dosenModel/Dosen.dart';
-import 'package:bimbingan_kuy_admin/service/dosen_service.dart';
+import 'package:bimbingan_kuy_admin/global_widget/dialog_widget.dart';
+import 'package:bimbingan_kuy_admin/service/network/dosen_service.dart';
 import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
+import 'package:bimbingan_kuy_admin/util/widget_utility/GetXhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -91,7 +95,55 @@ class DosenDetailController extends GetxController {
     print(detailDosen.value.toString());
   }
 
-  Future<void> submitForm() async {}
+  void setDepartemen(Departemen data) {
+    detailDosen(detailDosen.value.copyWith(departemen: data));
+    departemenController.text = detailDosen.value.departemen?.nama;
+    print(detailDosen.value.toString());
+  }
+
+  void setRole(List<Role> value) {
+    detailDosen(detailDosen.value.copyWith(roles: value));
+    print(detailDosen.value.toString());
+  }
+
+  void deleteRole(Role deletedRole) {
+    final replaceRoles = detailDosen.value.roles;
+    replaceRoles.removeWhere((data) => data.name == deletedRole.name);
+    detailDosen(detailDosen.value.copyWith(roles: replaceRoles));
+    if (detailDosen.value.roles.isEmpty) {
+      getValidationOf.validateRoles(null);
+    }
+    print(detailDosen.value.toString());
+  }
+
+  Future<void> submitForm() async {
+    print(detailDosen.value.toString());
+    // String response;
+    // try {
+    //   Get.dialog(LoadingDialog(
+    //     useCancelButton: false,
+    //   ));
+    //   if (data.crudMode == CRUDMode.create) {
+    //     response = await dosenService.createDosen();
+    //     if (response == 'ok') {
+    //       Get.find<DosenListController>().addDosen(detailDosen.value);
+    //       Get.back();
+    //       Get.back();
+    //       Helper.defaultSnackBarSuccess('Data berhasil ditambahkan !');
+    //     }
+    //   } else {
+    //     response = await dosenService.updateDosen();
+    //     if (response == 'ok') {
+    //       Get.find<DosenListController>().updateDosen(detailDosen.value);
+    //       Get.back();
+    //       Helper.defaultSnackBarSuccess('Data berhasil diperbarui !');
+    //     }
+    //   }
+    // } catch (e) {
+    //   Get.back();
+    //   Helper.defaultSnackBarError(e);
+    // }
+  }
 
   void dispose() {
     emailController.dispose();

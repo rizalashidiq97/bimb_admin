@@ -23,6 +23,7 @@ class HomePage extends StatelessWidget {
         ),
         bottomNavigationBar: Obx(
           () => BottomNavigationBar(
+            backgroundColor: Colors.white,
             type: BottomNavigationBarType.fixed,
             onTap: homeController.updateIndexTab,
             items: [

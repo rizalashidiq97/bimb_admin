@@ -1,5 +1,7 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_controller/dosen_detail_controller.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_model/validation_model.dart';
+import 'package:bimbingan_kuy_admin/global_model/authModel/Departemen.dart';
+import 'package:bimbingan_kuy_admin/global_model/authModel/Role.dart';
 import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
 import '../../../../../util/extension/string_extension.dart';
 import 'package:get/get.dart';
@@ -119,5 +121,37 @@ class DosenValidationController extends GetxController {
       ));
     }
     Get.find<DosenDetailController>().setNIP(value);
+  }
+
+  void validateDepartemen(Departemen value) {
+    if (value == null) {
+      validator(validator.value.copyWith(
+        departemenError: 'Departemen'.isRequired,
+        isdepartemenValid: false,
+      ));
+    } else {
+      validator(validator.value.copyWith(
+        departemenError: '',
+        isdepartemenValid: true,
+      ));
+    }
+
+    Get.find<DosenDetailController>().setDepartemen(value);
+  }
+
+  void validateRoles(List<Role> value) {
+    if (value == null) {
+      validator(validator.value.copyWith(
+        roleError: 'Hak Akses'.isRequired,
+        isroleValid: false,
+      ));
+    } else {
+      validator(validator.value.copyWith(
+        roleError: '',
+        isroleValid: true,
+      ));
+    }
+
+    Get.find<DosenDetailController>().setRole(value);
   }
 }

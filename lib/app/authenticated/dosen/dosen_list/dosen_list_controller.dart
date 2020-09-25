@@ -1,6 +1,6 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_model/navigator_model.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/User.dart';
-import 'package:bimbingan_kuy_admin/service/dosen_service.dart';
+import 'package:bimbingan_kuy_admin/service/network/dosen_service.dart';
 import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
 import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
 import 'package:bimbingan_kuy_admin/util/widget_utility/GetXhelper.dart';
@@ -18,12 +18,7 @@ class DosenListController extends GetxController {
   void onReady() => initCallApi();
 
   String roles(int index) {
-    return list[index]
-        .roles
-        .map((data) => data.name)
-        .toList()
-        .join(', ')
-        .replaceAll(RegExp('[\\_]+'), ' ');
+    return list[index].roles.map((data) => data.name).toList().join(', ');
   }
 
   Future<void> initCallApi({bool isRefresh = false}) async {
@@ -57,5 +52,14 @@ class DosenListController extends GetxController {
         user: user,
       ),
     );
+  }
+
+  void addDosen(User value) => list.insert(0, value);
+
+  void updateDosen(User value) {
+    final index = list.indexWhere((data) => data.dosen.id == value.dosen.id);
+    if (index != -1) {
+      list[index] = value;
+    }
   }
 }

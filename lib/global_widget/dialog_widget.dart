@@ -34,16 +34,16 @@ class LoadingDialog extends StatelessWidget {
           ],
         ),
         actions: <Widget>[
-          useOkButton
-              ? FlatButton(
-                  child: Text('OK'),
-                  onPressed: () => okCallback(),
-                )
-              : Container(),
           useCancelButton
               ? FlatButton(
                   child: Text('Batal'),
                   onPressed: () => cancelCallback(),
+                )
+              : Container(),
+          useOkButton
+              ? FlatButton(
+                  child: Text('OK'),
+                  onPressed: () => okCallback(),
                 )
               : Container(),
         ],

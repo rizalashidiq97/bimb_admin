@@ -33,6 +33,18 @@ class User {
             : List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
       );
 
+  Map<String, dynamic> toJson() {
+    return {
+      "kode_bimbing": this.dosen.kodeBimbing,
+      "kode_wali": this.dosen.kodeWali,
+      "nip": this.dosen.nip,
+      "nama": this.dosen.nama,
+      "departemen_id": this.departemen.id,
+      "email": this.email,
+      "roles": List<dynamic>.from(this.roles.map((e) => e.id))
+    };
+  }
+
   User copyWith({
     int id,
     String name,

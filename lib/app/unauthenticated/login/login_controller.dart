@@ -1,5 +1,5 @@
 import 'package:bimbingan_kuy_admin/global_controller/controller/auth_controller.dart';
-import 'package:bimbingan_kuy_admin/service/auth_service.dart';
+import 'package:bimbingan_kuy_admin/service/network/auth_service.dart';
 import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
 import 'package:bimbingan_kuy_admin/util/widget_utility/GetXhelper.dart';
 import 'package:bimbingan_kuy_admin/global_widget/dialog_widget.dart';
