@@ -19,6 +19,7 @@ class DepartemenRouter extends StatelessWidget {
         switch (route.name) {
           case NameRoutes.departemen:
             navigator = GetPageRoute(
+              routeName: NameRoutes.departemen,
               page: () => DepartemenPage(),
             );
             break;

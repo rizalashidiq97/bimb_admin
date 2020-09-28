@@ -45,6 +45,16 @@ class User {
     };
   }
 
+  User setName(String value) =>
+      this.copyWith(dosen: this.dosen.copyWith(nama: value));
+  User setEmail(String value) => this.copyWith(email: value);
+  User setKodeBimbing(String value) =>
+      this.copyWith(dosen: this.dosen.copyWith(kodeBimbing: int.parse(value)));
+  User setKodeWali(String value) =>
+      this.copyWith(dosen: this.dosen.copyWith(kodeWali: int.parse(value)));
+  User setNIP(String value) =>
+      this.copyWith(dosen: this.dosen.copyWith(nip: value));
+
   User copyWith({
     int id,
     String name,

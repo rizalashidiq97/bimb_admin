@@ -52,7 +52,7 @@ class DosenRouter extends StatelessWidget {
               binding: BindingsBuilder(
                 () {
                   Get.lazyPut(() =>
-                      DosenValidationController(crudMode: argument.crudMode));
+                      DosenValidationController(data: argument));
                   Get.lazyPut(() => DosenDetailController(
                       data: argument, dosenService: Get.find<DosenService>()));
                 },

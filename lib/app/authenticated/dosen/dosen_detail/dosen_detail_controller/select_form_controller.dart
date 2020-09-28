@@ -51,7 +51,7 @@ class SelectFormController extends GetxController {
   }
 
   bool isCheckedDepartemen(int choosedid) {
-    final user = Get.find<DosenDetailController>().detailDosen.value;
+    final user = Get.find<DosenDetailController>().detailDosen;
     return choosedid == user.departemen?.id;
   }
   // // end of BLOC for departemen form
@@ -68,7 +68,7 @@ class SelectFormController extends GetxController {
   }
 
   bool isCheckedRoles(int id) {
-    final roles = Get.find<DosenDetailController>().detailDosen.value.roles;
+    final roles = Get.find<DosenDetailController>().detailDosen.roles;
     final index = roles.indexWhere((data) => data.id == id);
     return index != -1 ? true : false;
   }
@@ -80,7 +80,7 @@ class SelectFormController extends GetxController {
 
   void goBackFromRoles({bool cancel = false}) {
     if (cancel) {
-      final user = Get.find<DosenDetailController>().detailDosen.value;
+      final user = Get.find<DosenDetailController>().detailDosen;
       Get.back(result: user.roles.isNotEmpty ? user.roles : null);
     } else {
       final assignListRole = listRoles.where((data) => data.checked).toList();
@@ -93,13 +93,13 @@ class SelectFormController extends GetxController {
 
   // on back pressed android & IOS
   Future<bool> goBackFromDepartemenOnWillPop() async {
-    final user = Get.find<DosenDetailController>().detailDosen.value;
-    Get.back(result: user.departemen.id == null ? null : user.departemen);
+    final user = Get.find<DosenDetailController>().detailDosen;
+    Get.back(result: user.departemen?.id == null ? null : user.departemen);
     return true;
   }
 
   Future<bool> goBackFromRolesOnWillPop() async {
-    final user = Get.find<DosenDetailController>().detailDosen.value;
+    final user = Get.find<DosenDetailController>().detailDosen;
     Get.back(result: user.roles.isNotEmpty ? user.roles : null);
     return true;
   }

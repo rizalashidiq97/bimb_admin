@@ -22,62 +22,90 @@ class DosenDetail extends StatelessWidget {
           builder: (_) => SingleChildScrollView(
             child: Column(
               children: [
-                Obx(
-                  () => TextFormWidget(
-                    nextfocusNode: controller.emailFocusNode,
-                    label: 'Nama',
-                    controller: controller.namaController,
-                    onChange: controller.getValidationOf.validateName,
-                    errorText:
-                        controller.getValidationOf.validator.value?.namaError,
-                  ),
+                GetX<DosenDetailController>(
+                  builder: (_) {
+                    print(
+                        'nama error : ${DosenDetailController.getValidationOf.errorNama}');
+                    return TextFormWidget(
+                      nextfocusNode: controller.emailFocusNode,
+                      label: 'Nama',
+                      controller: controller.namaController,
+                      onChange:
+                          DosenDetailController.getValidationOf.validateName,
+                      errorText:
+                          DosenDetailController.getValidationOf.errorNama,
+                    );
+                  },
                 ),
                 Obx(
-                  () => TextFormWidget(
-                    keyboard: TextInputType.emailAddress,
-                    focusNode: controller.emailFocusNode,
-                    nextfocusNode: controller.kodeBimbingFocusNode,
-                    label: 'Email',
-                    controller: controller.emailController,
-                    onChange: controller.getValidationOf.validateEmail,
-                    errorText:
-                        controller.getValidationOf.validator.value?.emailError,
-                  ),
+                  () {
+                    print(
+                        'email error : ${DosenDetailController.getValidationOf.errorEmail}');
+                    return TextFormWidget(
+                      errorMaxLines: 2,
+                      warning: DosenDetailController
+                          .getValidationOf.emailWarning.value,
+                      keyboard: TextInputType.emailAddress,
+                      focusNode: controller.emailFocusNode,
+                      nextfocusNode: controller.kodeBimbingFocusNode,
+                      label: 'Email',
+                      controller: controller.emailController,
+                      onChange:
+                          DosenDetailController.getValidationOf.validateEmail,
+                      errorText:
+                          DosenDetailController.getValidationOf.errorEmail,
+                    );
+                  },
                 ),
                 Obx(
-                  () => TextFormWidget(
-                    errorMaxLines: 2,
-                    keyboard: TextInputType.number,
-                    focusNode: controller.kodeBimbingFocusNode,
-                    onChange: controller.getValidationOf.validateKodeBimbing,
-                    nextfocusNode: controller.kodeWaliFocusNode,
-                    label: 'Kode Bimbing',
-                    controller: controller.kodeBimbingController,
-                    errorText: controller
-                        .getValidationOf.validator.value?.kodeBimbingError,
-                  ),
+                  () {
+                    print(
+                        'kodebimbing error : ${DosenDetailController.getValidationOf.errorKodeBimbing}');
+                    return TextFormWidget(
+                      errorMaxLines: 2,
+                      keyboard: TextInputType.number,
+                      focusNode: controller.kodeBimbingFocusNode,
+                      onChange: DosenDetailController
+                          .getValidationOf.validateKodeBimbing,
+                      nextfocusNode: controller.kodeWaliFocusNode,
+                      label: 'Kode Bimbing',
+                      controller: controller.kodeBimbingController,
+                      errorText: DosenDetailController
+                          .getValidationOf.errorKodeBimbing,
+                    );
+                  },
                 ),
                 Obx(
-                  () => TextFormWidget(
-                    errorMaxLines: 2,
-                    keyboard: TextInputType.number,
-                    onChange: controller.getValidationOf.validateKodeWali,
-                    focusNode: controller.kodeWaliFocusNode,
-                    label: 'Kode Wali',
-                    controller: controller.kodeWaliController,
-                    errorText: controller
-                        .getValidationOf.validator.value?.kodeWaliError,
-                  ),
+                  () {
+                    print(
+                        'kodwali error : ${DosenDetailController.getValidationOf.errorkodeWali}');
+                    return TextFormWidget(
+                      errorMaxLines: 2,
+                      keyboard: TextInputType.number,
+                      onChange: DosenDetailController
+                          .getValidationOf.validateKodeWali,
+                      focusNode: controller.kodeWaliFocusNode,
+                      label: 'Kode Wali',
+                      controller: controller.kodeWaliController,
+                      errorText:
+                          DosenDetailController.getValidationOf.errorkodeWali,
+                    );
+                  },
                 ),
                 Obx(
-                  () => TextFormWidget(
-                    keyboard: TextInputType.number,
-                    label: 'NIP',
-                    onChange: controller.getValidationOf.validateNIP,
-                    controller: controller.nipController,
-                    errorText:
-                        controller.getValidationOf.validator.value?.nipError,
-                  ),
+                  () {
+                    print(
+                        'nipError error : ${DosenDetailController.getValidationOf.errorkodeNIP}');
+                    return TextFormWidget(
+                      keyboard: TextInputType.number,
+                      label: 'NIP',
+                      onChange:
+                          DosenDetailController.getValidationOf.validateNIP,
+                      controller: controller.nipController,
+                      errorText:
+                          DosenDetailController.getValidationOf.errorkodeNIP,
+                    );
+                  },
                 ),
                 SelectDepartemen(),
                 SelectRoles(),

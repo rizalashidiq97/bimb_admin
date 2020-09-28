@@ -1,13 +1,16 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_controller/dosen_validation_controller.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_widget/error_validation_dialog.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_list/dosen_list_controller.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_model/navigator_model.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/Departemen.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/Role.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/User.dart';
 import 'package:bimbingan_kuy_admin/global_model/dosenModel/Dosen.dart';
+import 'package:bimbingan_kuy_admin/global_model/formDosen_errorModel.dart';
 import 'package:bimbingan_kuy_admin/global_widget/dialog_widget.dart';
 import 'package:bimbingan_kuy_admin/service/network/dosen_service.dart';
 import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
+import 'package:bimbingan_kuy_admin/util/utility/http_exception.dart';
 import 'package:bimbingan_kuy_admin/util/widget_utility/GetXhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,11 +35,11 @@ class DosenDetailController extends GetxController {
   final emailFocusNode = FocusNode();
 
   //state
-  Rx<User> detailDosen = User().obs;
+  User detailDosen = User();
+  RxList<Role> listRole = List<Role>().obs;
 
   //getter
-  DosenValidationController get getValidationOf =>
-      Get.find<DosenValidationController>();
+  static DosenValidationController get getValidationOf => Get.find();
   String get appBarTitle => data.crudMode == CRUDMode.update
       ? 'Edit Data Dosen'
       : 'Tambah Data Dosen';
@@ -44,105 +47,88 @@ class DosenDetailController extends GetxController {
   @override
   void onInit() {
     if (data.crudMode == CRUDMode.update) {
-      detailDosen(data.user);
-      emailController.text = data.user.email;
-      kodeBimbingController.text = data.user.dosen.kodeBimbing.toString();
-      kodeWaliController.text = data.user.dosen.kodeWali.toString();
-      nipController.text = data.user.dosen.nip;
-      namaController.text = data.user.dosen.nama;
-      departemenController.text = data.user.departemen.nama;
+      detailDosen = data.user;
+      listRole.addAll(data.user.roles);
+      setTextEditingController(data.user);
     } else {
-      detailDosen(
-        User(
-          id: null,
-          email: null,
-          departemen: Departemen(),
-          dosen: Dosen(),
-          name: null,
-          roles: [],
-        ),
+      detailDosen = User(
+        id: null,
+        email: null,
+        departemen: Departemen(),
+        dosen: Dosen(),
+        name: null,
+        roles: [],
       );
     }
+    print(detailDosen.toString());
   }
 
-  void setName(String value) {
-    detailDosen(detailDosen.value
-        .copyWith(dosen: detailDosen.value.dosen.copyWith(nama: value)));
-    print(detailDosen.value.toString());
+  void setTextEditingController(User userData) {
+    emailController.text = userData.email;
+    kodeBimbingController.text = userData.dosen.kodeBimbing.toString();
+    kodeWaliController.text = userData.dosen.kodeWali.toString();
+    nipController.text = userData.dosen.nip;
+    namaController.text = userData.dosen.nama;
+    departemenController.text = userData.departemen.nama;
   }
 
-  void setEmail(String value) {
-    detailDosen(detailDosen.value.copyWith(email: value));
-    print(detailDosen.value.toString());
-  }
-
-  void setKodeBimbing(String value) {
-    detailDosen(detailDosen.value.copyWith(
-        dosen:
-            detailDosen.value.dosen.copyWith(kodeBimbing: int.parse(value))));
-    print(detailDosen.value.toString());
-  }
-
-  void setKodeWali(String value) {
-    detailDosen(detailDosen.value.copyWith(
-        dosen: detailDosen.value.dosen.copyWith(kodeWali: int.parse(value))));
-    print(detailDosen.value.toString());
-  }
-
-  void setNIP(String value) {
-    detailDosen(detailDosen.value
-        .copyWith(dosen: detailDosen.value.dosen.copyWith(nip: value)));
-    print(detailDosen.value.toString());
-  }
+  void setName(String value) => detailDosen = detailDosen.setName(value);
+  void setEmail(String value) => detailDosen = detailDosen.setEmail(value);
+  void setKodeBimbing(String value) =>
+      detailDosen = detailDosen.setKodeBimbing(value);
+  void setKodeWali(String value) =>
+      detailDosen = detailDosen.setKodeWali(value);
+  void setNIP(String value) => detailDosen = detailDosen.setNIP(value);
 
   void setDepartemen(Departemen data) {
-    detailDosen(detailDosen.value.copyWith(departemen: data));
-    departemenController.text = detailDosen.value.departemen?.nama;
-    print(detailDosen.value.toString());
+    detailDosen = detailDosen.copyWith(departemen: data);
+    departemenController.text = data?.nama;
   }
 
   void setRole(List<Role> value) {
-    detailDosen(detailDosen.value.copyWith(roles: value));
-    print(detailDosen.value.toString());
+    detailDosen = detailDosen.copyWith(roles: value);
+    if (value != null && value.isNotEmpty) {
+      listRole.replaceRange(0, listRole.length, value);
+    }
   }
 
   void deleteRole(Role deletedRole) {
-    final replaceRoles = detailDosen.value.roles;
-    replaceRoles.removeWhere((data) => data.name == deletedRole.name);
-    detailDosen(detailDosen.value.copyWith(roles: replaceRoles));
-    if (detailDosen.value.roles.isEmpty) {
+    final listafterRemoved = detailDosen.roles
+      ..removeWhere((data) => data.id == deletedRole.id);
+
+    detailDosen = detailDosen.copyWith(roles: listafterRemoved);
+    listRole.removeWhere((data) => data.id == deletedRole.id);
+    if (detailDosen.roles.isEmpty) {
       getValidationOf.validateRoles(null);
     }
-    print(detailDosen.value.toString());
   }
 
   Future<void> submitForm() async {
-    print(detailDosen.value.toString());
-    // String response;
-    // try {
-    //   Get.dialog(LoadingDialog(
-    //     useCancelButton: false,
-    //   ));
-    //   if (data.crudMode == CRUDMode.create) {
-    //     response = await dosenService.createDosen();
-    //     if (response == 'ok') {
-    //       Get.find<DosenListController>().addDosen(detailDosen.value);
-    //       Get.back();
-    //       Get.back();
-    //       Helper.defaultSnackBarSuccess('Data berhasil ditambahkan !');
-    //     }
-    //   } else {
-    //     response = await dosenService.updateDosen();
-    //     if (response == 'ok') {
-    //       Get.find<DosenListController>().updateDosen(detailDosen.value);
-    //       Get.back();
-    //       Helper.defaultSnackBarSuccess('Data berhasil diperbarui !');
-    //     }
-    //   }
-    // } catch (e) {
-    //   Get.back();
-    //   Helper.defaultSnackBarError(e);
-    // }
+    print(detailDosen.toString());
+    try {
+      Get.dialog(LoadingDialog(useCancelButton: false));
+      if (data.crudMode == CRUDMode.create) {
+        final responseCreated = await dosenService.createDosen();
+        Get.find<DosenListController>().addDosen(responseCreated);
+        Get.back();
+        Get.back(id: 1);
+        Helper.defaultSnackBarSuccess('Data berhasil ditambahkan !');
+      } else {
+        final responseUpdated = await dosenService.updateDosen();
+        if (responseUpdated) {
+          Get.find<DosenListController>().updateDosen(detailDosen);
+          getValidationOf.setPrevEmail = detailDosen.email;
+          Get.back();
+          Helper.defaultSnackBarSuccess('Data berhasil diperbarui !');
+        }
+      }
+    } on FormValidationErrorException<FormDosenErrorModel> catch (e) {
+      Get.back();
+      Get.dialog(FormValidationDialog(message: e.message));
+    } catch (e) {
+      Get.back();
+      Helper.defaultSnackBarError(e);
+    }
   }
 
   void dispose() {

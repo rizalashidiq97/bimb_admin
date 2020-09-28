@@ -12,13 +12,17 @@ class SelectDepartemen extends StatelessWidget {
   Widget build(BuildContext context) {
     final DosenDetailController controller = Get.find();
     return Obx(
-      () => TextFormWidget(
-        onTap: showDialogDepartemen,
-        readOnly: true,
-        label: 'Departemen',
-        controller: controller.departemenController,
-        errorText: controller.getValidationOf.validator.value?.departemenError,
-      ),
+      () {
+        print(
+            'departemen error : ${DosenDetailController.getValidationOf.errorDepartemen}');
+        return TextFormWidget(
+          onTap: showDialogDepartemen,
+          readOnly: true,
+          label: 'Departemen',
+          controller: controller.departemenController,
+          errorText: DosenDetailController.getValidationOf.errorDepartemen,
+        );
+      },
     );
   }
 

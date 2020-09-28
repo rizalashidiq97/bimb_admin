@@ -15,7 +15,6 @@ class Role {
                 .toString()
                 .toCapital
                 .replaceAll(RegExp('[\\_]+'), ' '),
-        checked: true,
       );
 
   @override

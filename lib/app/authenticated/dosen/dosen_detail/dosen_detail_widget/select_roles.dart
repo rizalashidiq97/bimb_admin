@@ -21,10 +21,12 @@ class SelectRoles extends StatelessWidget {
         onTap: () => showDialogDepartemen(),
         child: Obx(
           () {
-            final errorText =
-                controller.getValidationOf.validator.value?.roleError;
+            final errorText = DosenDetailController.getValidationOf.errorROles;
+            print('role error : $errorText');
             return InputDecorator(
+              isEmpty: controller.listRole.isEmpty,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                 fillColor: Colors.white,
                 errorText: errorText,
                 labelText: 'Hak Akses',
@@ -48,7 +50,7 @@ class SelectRoles extends StatelessWidget {
                       return Wrap(
                         spacing: 8.0,
                         runSpacing: 0.0,
-                        children: controller.detailDosen.value.roles
+                        children: controller.listRole
                             .map(
                               (data) => Chip(
                                 deleteIconColor: Colors.white,

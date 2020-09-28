@@ -14,6 +14,7 @@ class TextFormWidget extends StatelessWidget {
   final bool obsecureText;
   final String errorText;
   final int errorMaxLines;
+  final bool warning;
   final Widget icon;
   final TextStyle style;
 
@@ -34,6 +35,7 @@ class TextFormWidget extends StatelessWidget {
     this.errorMaxLines = 1,
     this.icon,
     this.style,
+    this.warning = false,
   }) : super(key: key);
 
   @override
@@ -57,11 +59,19 @@ class TextFormWidget extends StatelessWidget {
             icon: icon,
             errorMaxLines: errorMaxLines,
             errorText: errorText,
+            errorStyle: TextStyle(
+                color: warning
+                    ? Colors.orange
+                    : errorText != null
+                        ? Colors.red
+                        : Theme.of(context).primaryColor),
             labelText: label,
             labelStyle: TextStyle(
-                color: errorText != null
-                    ? Colors.red
-                    : Theme.of(context).primaryColor,
+                color: warning
+                    ? Colors.orange
+                    : errorText != null
+                        ? Colors.red
+                        : Theme.of(context).primaryColor,
                 fontSize: 12),
             border: border
                 ? OutlineInputBorder(
@@ -75,16 +85,20 @@ class TextFormWidget extends StatelessWidget {
                 : UnderlineInputBorder(),
             errorBorder: border
                 ? OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide:
+                        BorderSide(color: warning ? Colors.orange : Colors.red),
                   )
                 : UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red)),
+                    borderSide: BorderSide(
+                        color: warning ? Colors.orange : Colors.red)),
             focusedErrorBorder: border
                 ? OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide:
+                        BorderSide(color: warning ? Colors.orange : Colors.red),
                   )
                 : UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red)),
+                    borderSide: BorderSide(
+                        color: warning ? Colors.orange : Colors.red)),
             isDense: true),
       ),
     );

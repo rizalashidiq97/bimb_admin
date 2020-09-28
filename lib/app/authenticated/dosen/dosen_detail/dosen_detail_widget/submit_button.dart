@@ -17,7 +17,7 @@ class SubmitFormCRUDDosen extends StatelessWidget {
       width: double.infinity,
       child: Obx(() {
         return RaisedButton(
-          onPressed: controller.getValidationOf.allowedSubmit
+          onPressed: DosenDetailController.getValidationOf.allowedSubmit
               ? () => controller.submitForm()
               : null,
           color: Get.theme.accentColor,
