@@ -1,5 +1,5 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_controller/dosen_validation_controller.dart';
-import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_detail/dosen_detail_widget/error_validation_dialog.dart';
+import 'package:bimbingan_kuy_admin/global_widget/error_validation_dialog.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_list/dosen_list_controller.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_model/navigator_model.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/Departemen.dart';
@@ -124,7 +124,7 @@ class DosenDetailController extends GetxController {
       }
     } on FormValidationErrorException<FormDosenErrorModel> catch (e) {
       Get.back();
-      Get.dialog(FormValidationDialog(message: e.message));
+      Get.dialog(ErrorValidationDialog<FormDosenErrorModel>(message: e.message));
     } catch (e) {
       Get.back();
       Helper.defaultSnackBarError(e);

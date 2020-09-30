@@ -20,6 +20,10 @@ class DosenPage extends StatelessWidget {
             icon: Icon(Icons.add),
             onPressed: () => controller.navigateToDetailDosen(CRUDMode.create),
           ),
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () => controller.initCallApi(isRefresh: true),
+          ),
           IconButton(icon: Icon(Icons.settings), onPressed: () {}),
         ],
       ),

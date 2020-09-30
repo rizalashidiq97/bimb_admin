@@ -21,6 +21,15 @@ class Departemen {
     return Departemen(id: data['id'], nama: data['nama']);
   }
 
+  Departemen copyWith({
+    int id,
+    String nama,
+  }) =>
+      Departemen(
+        id: id ?? this.id,
+        nama: nama ?? this.nama,
+      );
+
   @override
   String toString() {
     return """Departemen(

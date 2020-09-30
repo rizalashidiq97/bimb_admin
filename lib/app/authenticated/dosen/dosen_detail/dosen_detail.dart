@@ -30,8 +30,8 @@ class DosenDetail extends StatelessWidget {
                       nextfocusNode: controller.emailFocusNode,
                       label: 'Nama',
                       controller: controller.namaController,
-                      onChange:
-                          DosenDetailController.getValidationOf.validateName,
+                      onChange: (val) => DosenDetailController.getValidationOf
+                          .validateName(val),
                       errorText:
                           DosenDetailController.getValidationOf.errorNama,
                     );

@@ -1,8 +1,10 @@
+import 'package:bimbingan_kuy_admin/app/authenticated/departemen/departemen_controller/departemen_controller.dart';
 import 'package:flutter/material.dart' show Color, Colors;
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   RxInt selectedIndex = 0.obs;
+  bool _isInstantiatedDepartemenPage = false;
 
   Color changeColorToggleActive(int id) {
     return selectedIndex.value == id ? Get.theme.accentColor : Colors.grey;
@@ -10,6 +12,16 @@ class HomeController extends GetxController {
 
   void updateIndexTab(int value) {
     selectedIndex.value = value;
+    switch (selectedIndex.value) {
+      case 1:
+        if (!_isInstantiatedDepartemenPage) {
+          _isInstantiatedDepartemenPage = true;
+          Get.find<DepartemenController>().initCallDepartemenApi();
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   Future<bool> handleBackPress() async {

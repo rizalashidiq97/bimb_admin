@@ -17,6 +17,7 @@ class TextFormWidget extends StatelessWidget {
   final bool warning;
   final Widget icon;
   final TextStyle style;
+  final bool autoFocus;
 
   const TextFormWidget({
     Key key,
@@ -36,6 +37,7 @@ class TextFormWidget extends StatelessWidget {
     this.icon,
     this.style,
     this.warning = false,
+    this.autoFocus = false,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class TextFormWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextField(
+        autofocus: autoFocus,
         controller: controller,
         onChanged: onChange,
         readOnly: readOnly ?? false,

@@ -25,6 +25,7 @@ class DosenListController extends GetxController {
     try {
       if (isRefresh) {
         networkStates.value = NetworkStates.loading;
+        list.clear();
       }
 
       final response = await dosenService.getDataDosen();
