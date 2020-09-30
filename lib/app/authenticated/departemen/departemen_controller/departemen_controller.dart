@@ -59,7 +59,6 @@ class DepartemenController extends GetxController {
       setcrudMode = crudMode;
       final dataDep = await Get.dialog(DialogFormDepartemen(departemen));
       if (dataDep != null && dataDep is Departemen) {
-        print('${dataDep.nama} & ${dataDep.id}');
         Get.back();
         Get.dialog(LoadingDialog(useCancelButton: false));
         if (setcrudMode == CRUDMode.create) {
@@ -81,7 +80,7 @@ class DepartemenController extends GetxController {
       Get.dialog(ErrorValidationDialog<DepartemenErrorModel>(message: e.message));
     } catch (e) {
       Get.back();
-      Helper.defaultSnackBarError(exitCode);
+      Helper.defaultSnackBarError(e);
     }
   }
 }
