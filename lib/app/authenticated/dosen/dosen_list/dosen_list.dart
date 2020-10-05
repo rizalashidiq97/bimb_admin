@@ -1,5 +1,6 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_list/dosen_list_controller.dart';
 import 'package:bimbingan_kuy_admin/global_widget/reusable_app_bar.dart';
+import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
 import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,9 @@ class DosenPage extends StatelessWidget {
             icon: Icon(Icons.refresh),
             onPressed: () => controller.initCallApi(isRefresh: true),
           ),
-          IconButton(icon: Icon(Icons.settings), onPressed: () {}),
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () => Get.toNamed(NameRoutes.setting)),
         ],
       ),
       body: Obx(

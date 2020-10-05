@@ -1,4 +1,4 @@
-import 'package:bimbingan_kuy_admin/global_controller/controller/auth_controller.dart';
+import 'package:bimbingan_kuy_admin/global_controller/global/auth_controller.dart';
 import 'package:bimbingan_kuy_admin/util/widget_utility/string_util.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';

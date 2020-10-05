@@ -4,7 +4,7 @@ import 'package:bimbingan_kuy_admin/service/network/http_client.dart';
 import 'package:bimbingan_kuy_admin/util/widget_utility/string_util.dart';
 import 'package:get/get.dart';
 
-import 'global_controller/controller/auth_controller.dart';
+import 'global_controller/global/auth_controller.dart';
 
 class MainAppBinding extends Bindings {
   @override

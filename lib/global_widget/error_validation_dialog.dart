@@ -1,4 +1,5 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/departemen/departemen_model.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/settings/change_password/change_password_model.dart';
 import 'package:bimbingan_kuy_admin/global_model/formDosen_errorModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,6 +45,8 @@ class ErrorValidationDialog<T> extends StatelessWidget {
       for (String nama in messageData?.nama) {
         _listError.add(Text('- $nama', style: _textStyle));
       }
+    } else if (messageData is PasswordErrorModel) {
+      _listError.add(Text('- ${messageData?.password}', style: _textStyle));
     } else {
       _listError.add(Text('- Tidak ada error', style: _textStyle));
     }

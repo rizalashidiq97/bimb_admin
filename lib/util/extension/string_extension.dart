@@ -5,6 +5,7 @@ extension ValidationStringErrorExtension on String {
       '$this tidak boleh kurang dari $data karakter';
   String lengthBetween(int int1, int int2) =>
       'Panjang $this harus diantara $int1 - $int2 karakter';
+  bool isSamewithConfPassword(String value) => value != null && this != value;
 }
 
 extension StringSuperCharged on String {

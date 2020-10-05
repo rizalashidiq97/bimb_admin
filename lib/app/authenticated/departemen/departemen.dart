@@ -2,6 +2,7 @@ import 'package:bimbingan_kuy_admin/app/authenticated/departemen/departemen_cont
 import 'package:bimbingan_kuy_admin/app/authenticated/dosen/dosen_list/dosen_network_states.dart';
 import 'package:bimbingan_kuy_admin/global_model/authModel/Departemen.dart';
 import 'package:bimbingan_kuy_admin/global_widget/reusable_app_bar.dart';
+import 'package:bimbingan_kuy_admin/util/routes/name_routes.dart';
 import 'package:bimbingan_kuy_admin/util/utility/enum_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,9 @@ class DepartemenPage extends StatelessWidget {
                   crudMode: CRUDMode.create, departemen: Departemen());
             },
           ),
-          IconButton(icon: Icon(Icons.settings), onPressed: () {}),
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () => Get.toNamed(NameRoutes.setting)),
         ],
       ),
       body: Obx(

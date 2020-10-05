@@ -5,6 +5,8 @@ class NameRoutes {
   static const dosen = '/dosen';
   static const dosenDetail = '/dosen-detail';
   static const departemen = '/departemen';
+  static const changepass = '/changepass';
+  static const setting = '/setting';
 
   static const notFound = '/not-found';
 }

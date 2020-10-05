@@ -1,5 +1,8 @@
 import 'package:bimbingan_kuy_admin/app/authenticated/home/home.dart';
 import 'package:bimbingan_kuy_admin/app/authenticated/home/home_controller.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/settings/change_password/change_password.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/settings/change_password/change_password_controller.dart';
+import 'package:bimbingan_kuy_admin/app/authenticated/settings/change_password/settings.dart';
 import 'package:bimbingan_kuy_admin/app/unauthenticated/login/login_controller.dart';
 import 'package:get/get.dart';
 import 'name_routes.dart';
@@ -27,6 +30,16 @@ class Routes {
       name: NameRoutes.home,
       page: () => HomePage(),
       binding: BindingsBuilder(() => Get.put<HomeController>(HomeController())),
+    ),
+    GetPage(
+      name: NameRoutes.setting,
+      page: () => Settings(),
+    ),
+    GetPage(
+      name: NameRoutes.changepass,
+      page: () => ChangePassword(),
+      binding: BindingsBuilder(
+          () => Get.put<ChangePasswordController>(ChangePasswordController())),
     )
   ];
 }
